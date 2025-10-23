@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Altus Capital — Firmas de Inversión Inmobiliaria</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#fffdfc;
+      --glass-bg: rgba(255,255,255,0.55);
+      --accent:#ff8a3d; /* naranja pastel acento */
+      --accent-dark:#d95b10;
+      --muted:#f7f5f4;
+      --card-shadow: 14px 10px 30px rgba(0,0,0,0.06), -8px -6px 20px rgba(255,255,255,0.8);
+      --soft-shadow: 10px 8px 20px rgba(209,91,16,0.06), -6px -6px 18px rgba(255,255,255,0.9);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    /* Fondo principal para toda la página - MÁS COLOR Y VISIBILIDAD */
+    .main-bg {
+      background-image: 
+        linear-gradient(135deg, 
+          rgba(255, 253, 252, 0.75) 0%, 
+          rgba(255, 248, 240, 0.85) 50%,
+          rgba(255, 241, 230, 0.90) 100%),
+        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+      background-size: cover;
+      background-position: center 30%;
+      background-attachment: fixed;
+      min-height: 100vh;
+      background-blend-mode: soft-light;
+    }
+
+    /* Neoformismo / Neumorphism base for cards */
+    .neo {
+      background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(244,243,241,0.95));
+      border-radius: 18px;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Glassmorphism */
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.45));
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 16px;
+    }
+
+    /* Hero 3D scene */
+    .scene {
+      perspective: 1400px;
+      perspective-origin: 50% 40%;
+    }
+
+    .card-3d {
+      width: 520px;
+      max-width: 86%;
+      height: 320px;
+      border-radius: 20px;
+      transform-style: preserve-3d;
+      transition: transform 400ms cubic-bezier(.2,.9,.3,1);
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .card-layer {
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backface-visibility: hidden;
+    }
+
+    /* decorative layers for parallax/3d feel */
+    .card-layer.bg {
+      background: linear-gradient(135deg,var(--accent) 0%, #ffd7b8 60%);
+      transform: translateZ(-40px) scale(1.05);
+      filter: saturate(120%) brightness(110%);
+    }
+    .card-layer.mid {
+      background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.25));
+      transform: translateZ(20px) scale(0.99);
+      box-shadow: 0 6px 30px rgba(0,0,0,0.08);
+      border: 1px solid rgba(255,255,255,0.7);
+      padding: 28px;
+      gap: 12px;
+      flex-direction: column;
+    }
+    .card-layer.front {
+      transform: translateZ(60px) scale(0.98);
+      padding: 18px;
+    }
+
+    /* subtle floating animation */
+    @keyframes floaty {
+      0% { transform: translateY(0) rotateX(0) rotateY(0); }
+      50% { transform: translateY(-8px) rotateX(1deg) rotateY(-2deg); }
+      100% { transform: translateY(0) rotateX(0) rotateY(0); }
+    }
+    .floaty { animation: floaty 6s ease-in-out infinite; }
+
+    /* particles */
+    .particles{
+      position:absolute;
+      inset: -20% -10% auto -10%;
+      height: 140%;
+      pointer-events: none;
+      overflow: visible;
+      mix-blend-mode: multiply;
+      opacity: 0.75;
+    }
+
+    /* property card animations */
+    .prop-card {
+      transition: transform 420ms cubic-bezier(.2,.9,.3,1), box-shadow 300ms;
+    }
+    .prop-card:hover {
+      transform: translateY(-10px) scale(1.01);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+    }
+
+    /* buttons */
+    .btn-primary {
+      background: linear-gradient(90deg,var(--accent) 0%, var(--accent-dark) 100%);
+      color: white;
+      box-shadow: 0 8px 30px rgba(217,91,16,0.18), inset 0 -2px 6px rgba(0,0,0,0.06);
+      border-radius: 12px;
+      padding: 0.6rem 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(217,91,16,0.25);
+    }
+
+    .whatsapp-badge {
+      background: #25D366;
+      color: white;
+      display: inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:700;
+      box-shadow: 0 8px 24px rgba(37,211,102,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .whatsapp-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(37,211,102,0.3);
+    }
+
+    /* accessibility focus */
+    a:focus, button:focus, input:focus, textarea:focus {
+      outline: 3px solid rgba(255,138,61,0.35);
+      outline-offset: 4px;
+    }
+
+    /* responsive tweaks */
+    @media (max-width: 640px) {
+      .card-3d { height: 260px; }
+      .card-layer.mid { padding: 14px; }
+      .main-bg {
+        background-attachment: scroll;
+        background-position: center 40%;
+      }
+    }
+
+    /* subtle glass border lines for sections */
+    section.glass-section { 
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.6));
+      backdrop-filter: blur(15px);
+    }
+
+    /* ensure footer is neat */
+    footer { 
+      border-top: 1px solid rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Mejoras adicionales */
+    .section-spacing {
+      margin-top: 5rem;
+      margin-bottom: 5rem;
+    }
+    
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    
+    @media (min-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+      }
+    }
+    
+    .stats-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    @media (min-width: 640px) {
+      .stats-container {
+        flex-direction: row;
+        gap: 1.5rem;
+      }
+    }
+    
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    @media (min-width: 768px) {
+      .services-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    .properties-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    @media (min-width: 640px) {
+      .properties-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .properties-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .team-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .property-image {
+      height: 10rem;
+      border-radius: 0.75rem;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .property-image::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.85;
+      transition: opacity 0.3s ease;
+    }
+    
+    .property-image:hover::before {
+      opacity: 0.95;
+    }
+    
+    .property-image-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    
+    .property-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .property-actions {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .nav-links {
+      display: none;
+    }
+    
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #374151;
+      }
+    }
+    
+    .mobile-cta {
+      display: block;
+    }
+    
+    @media (min-width: 768px) {
+      .mobile-cta {
+        display: none;
+      }
+    }
+
+    /* Mejoras específicas para la tarjeta 3D */
+    .card-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+    
+    .card-title {
+      flex: 1;
+    }
+    
+    .card-price {
+      text-align: right;
+      margin-left: 1rem;
+    }
+    
+    .card-progress {
+      margin: 1.5rem 0;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff8a3d, #ff6b1a);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+    
+    .strategy-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .strategy-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #fff, #fff7f3);
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.08);
+    }
+    
+    .strategy-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Imágenes de propiedades con placeholders mejorados */
+    .property-1::before {
+      background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.25)), 
+                        url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');
+    }
+    
+    .property-2::before {
+      background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.25)), 
+                        url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');
+    }
+    
+    .property-3::before {
+      background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.25)), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');
+    }
+    
+    .property-4::before {
+      background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.25)), 
+                        url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');
+    }
+
+    /* Imagen de equipo */
+    .team-member-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .team-member-1 {
+      background-image: url('https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80');
+    }
+    
+    .team-member-2 {
+      background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80');
+    }
+
+    /* Iconos de servicios */
+    .service-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff, #fff7f3);
+      box-shadow: 6px 6px 12px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+
+    .service-icon:hover {
+      transform: scale(1.05);
+    }
+
+    /* Hero con imagen de fondo */
+    .hero-section {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      margin-top: 2rem;
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,248,240,0.95));
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    }
+    
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(135deg, rgba(255, 248, 240, 0.7), rgba(255, 241, 230, 0.8)),
+        url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1973&q=80');
+      background-size: cover;
+      background-position: center 35%;
+      z-index: -1;
+      opacity: 0.9;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 4rem 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .hero-content {
+        padding: 6rem 4rem;
+      }
+    }
+
+    /* Efecto de profundidad para las secciones */
+    .content-section {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Animaciones suaves */
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mejoras de color en textos */
+    .text-accent {
+      color: var(--accent-dark);
+    }
+
+    .bg-accent-light {
+      background: linear-gradient(135deg, #fff7f3, #ffedd9);
+    }
+  </style>
+</head>
+<body class="antialiased text-slate-900 main-bg">
+
+  <!-- Container -->
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 py-10 content-section">
+
+    <!-- NAVBAR -->
+    <header class="flex items-center justify-between py-4 fade-in">
+      <div class="flex items-center gap-4">
+        <div class="neo glass p-2 flex items-center gap-3">
+          <!-- logo -->
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-accent-light">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M3 12l4-4 7 7 7-7 2 2-9 9L3 12z" fill="#ff8a3d"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-lg font-extrabold tracking-tight">Altus Capital</div>
+            <div class="text-xs text-slate-500">Inversión Inmobiliaria de Alto Nivel</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#servicios" class="hover:underline hover:text-accent transition-colors">Servicios</a>
+        <a href="#inversiones" class="hover:underline hover:text-accent transition-colors">Mejor inversión</a>
+        <a href="#equipo" class="hover:underline hover:text-accent transition-colors">Equipo</a>
+        <a href="#contacto" class="hover:underline hover:text-accent transition-colors">Contacto</a>
+        <a href="#contacto" class="whatsapp-badge" id="whats-top" aria-label="Contactar por WhatsApp">
+          <!-- whatsapp icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M20.5 3.5L3.5 20.5" stroke="white" stroke-width="0"></path>
+            <path d="M12.004 2.003c-5.522 0-9.999 4.477-9.999 9.999 0 1.764.445 3.493 1.289 5.02L2 22l4.176-1.297c1.477.804 3.18 1.227 4.828 1.227 5.522 0 9.999-4.477 9.999-9.999 0-5.523-4.477-9.999-9.999-9.999z" fill="white"/>
+            <path d="M17.6 14.2c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.19.3-.75.97-.92 1.17-.17.19-.34.22-.63.07-1.62-.81-2.68-1.45-3.76-3.27-.28-.48.28-.45.81-1.49.09-.19.04-.35-.02-.49-.06-.13-.67-1.6-.92-2.21-.24-.58-.49-.5-.67-.51-.17-.01-.36-.01-.55-.01-.18 0-.47.07-.72.35-.25.27-.99 1.02-.99 2.48 0 1.46 1.02 2.88 1.16 3.08.14.19 2.01 3.06 4.87 4.29 2.85 1.23 2.85.82 3.36.77.51-.05 1.66-.67 1.9-1.32.24-.65.24-1.2.17-1.32-.07-.12-.27-.19-.57-.34z" fill="#1f2937"/>
+          </svg>
+          <span class="text-[13px]">Contactar</span>
+        </a>
+      </nav>
+
+      <!-- Mobile menu CTA -->
+      <div class="mobile-cta">
+        <a href="#contacto" class="whatsapp-badge" aria-label="Contactar por WhatsApp">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M17.6 14.2..." fill="white"/>
+          </svg> 
+          Contactar
+        </a>
+      </div>
+    </header>
+
+    <!-- HERO CON FONDO MEJORADO -->
+    <section id="hero" class="hero-section neo fade-in">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-grid">
+          <div class="space-y-6">
+            <h1 class="text-4xl md:text-5xl font-extrabold leading-tight" style="color:#2b2b2b;">
+              Altus Capital — <span style="color:var(--accent-dark)">Estrategias</span> de inversión inmobiliaria de alto nivel
+            </h1>
+            <p class="text-lg text-slate-600 max-w-xl">
+              Ayudamos a familias y capitales institucionales a invertir en activos premium con estrategias a medida y due diligence de primer nivel. Renta, revalorización y fiscalidad optimizada.
+            </p>
+
+            <div class="flex items-center gap-4">
+              <a href="#contacto" class="btn-primary inline-flex items-center gap-3" id="cta-hero">
+                <!-- whatsapp icon small -->
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M20.5 3.5L3.5 20.5" stroke="white" stroke-width="0"></path><path d="M12.004 2.003c-5.522 0-9.999 4.477-9.999 9.999 0 1.764.445 3.493 1.289 5.02L2 22l4.176-1.297c1.477.804 3.18 1.227 4.828 1.227 5.522 0 9.999-4.477 9.999-9.999 0-5.523-4.477-9.999-9.999-9.999z" fill="white"/></svg>
+                Contactar por WhatsApp
+              </a>
+              <a href="#inversiones" class="text-sm text-slate-700 hover:text-accent hover:underline transition-colors">Ver mejores inversiones →</a>
+            </div>
+
+            <div class="stats-container">
+              <div class="glass neo p-4 flex items-center gap-3">
+                <div class="text-sm text-slate-600">Retorno objetivo</div>
+                <div class="text-2xl font-bold text-accent">9.6% anual</div>
+              </div>
+              <div class="glass neo p-4 flex items-center gap-3">
+                <div class="text-sm text-slate-600">Activos en cartera</div>
+                <div class="text-2xl font-bold text-accent">24</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3D card / scene -->
+          <div class="scene relative">
+            <!-- particles decorative SVG -->
+            <svg class="particles" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden>
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0" stop-color="#fff2ec" stop-opacity="0.8" />
+                  <stop offset="1" stop-color="#ffd7b8" stop-opacity="0.6" />
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="80" r="18" fill="#fff7f3" />
+              <circle cx="520" cy="40" r="28" fill="#ffedd9" />
+              <circle cx="420" cy="280" r="20" fill="#fff7f3" />
+              <g transform="translate(60,150) rotate(-12)">
+                <ellipse rx="110" ry="24" fill="url(#g1)" opacity="0.9"></ellipse>
+              </g>
+            </svg>
+
+            <!-- TARJETA 3D CORREGIDA -->
+            <div id="card" class="card-3d floaty neo glass" role="img" aria-label="Representación 3D de inversión">
+              <div class="card-layer bg"></div>
+
+              <div class="card-layer mid">
+                <div class="card-content">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <div class="text-sm uppercase tracking-wider text-slate-800 font-semibold">Portfolio Premium</div>
+                      <div class="text-2xl font-bold mt-1" style="color:#2b2b2b">Residencial Prime</div>
+                      <div class="text-sm text-slate-600 mt-2">Ubicación: Paseo Central, Ciudad</div>
+                    </div>
+                    <div class="card-price">
+                      <div class="text-xs text-slate-500 font-medium">Valoración</div>
+                      <div class="text-2xl font-extrabold mt-1 text-accent">$ 3.2M</div>
+                    </div>
+                  </div>
+
+                  <div class="card-progress">
+                    <div class="flex justify-between items-center">
+                      <div class="text-sm font-medium text-slate-700">Progreso de inversión</div>
+                      <div class="text-sm font-semibold text-accent">62%</div>
+                    </div>
+                    <div class="progress-bar">
+                      <div class="progress-fill" style="width:62%"></div>
+                    </div>
+                  </div>
+
+                  <div class="card-footer">
+                    <div class="text-sm text-slate-600 font-medium">Rendimiento estimado</div>
+                    <div class="text-sm font-bold text-accent">+7.3% anual</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-layer front">
+                <div class="w-full flex items-center justify-between">
+                  <div class="strategy-info">
+                    <div class="strategy-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M3 12l4-4 7 7 7-7 2 2-9 9L3 12z" fill="#ff8a3d"/></svg>
+                    </div>
+                    <div class="strategy-text">
+                      <div class="text-xs text-slate-600">Estrategia</div>
+                      <div class="text-sm font-semibold">Value-add & short-term</div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <button class="btn-primary text-sm px-4 py-2" onclick="location.href='#inversiones'">Ver oferta</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- hint small text -->
+            <div class="text-xs text-slate-500 text-center mt-3">Interactúa moviendo el cursor sobre la tarjeta</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="servicios" class="section-spacing glass-section glass neo p-8 fade-in">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-2xl font-bold">Nuestros servicios</h2>
+        <p class="text-slate-600 mt-2">Soluciones integrales: sourcing, financiación, gestión patrimonial y salida optimizada.</p>
+      </div>
+
+      <div class="mt-8 services-grid">
+        <div class="p-5 neo glass prop-card">
+          <div class="service-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="#ff8a3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-sm text-slate-600">Due Diligence</div>
+              <div class="text-lg font-semibold">Análisis exhaustivo</div>
+            </div>
+          </div>
+          <p class="text-sm text-slate-500 mt-3">Evaluación legal, técnica y financiera para minimizar riesgos.</p>
+        </div>
+
+        <div class="p-5 neo glass prop-card">
+          <div class="service-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#ff8a3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-sm text-slate-600">Estructuración</div>
+              <div class="text-lg font-semibold">Financiamiento y fiscal</div>
+            </div>
+          </div>
+          <p class="text-sm text-slate-500 mt-3">Optimización para beneficios netos y retorno a inversionistas.</p>
+        </div>
+
+        <div class="p-5 neo glass prop-card">
+          <div class="service-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke="#ff8a3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke="#ff8a3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-sm text-slate-600">Gestión</div>
+              <div class="text-lg font-semibold">Operativa y Asset Mgmt</div>
+            </div>
+          </div>
+          <p class="text-sm text-slate-500 mt-3">Maximizamos ingresos y mejoramos el valor del activo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEJOR INVERSION (4 items) -->
+    <section id="inversiones" class="section-spacing fade-in">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-2xl font-bold">Mejor inversión</h3>
+          <p class="text-slate-600">Cuatro oportunidades destacadas seleccionadas por nuestro equipo.</p>
+        </div>
+        <div class="hidden md:flex items-center gap-3">
+          <span class="text-sm text-slate-500">Filtrar:</span>
+          <select id="filter" class="glass neo p-2 text-sm">
+            <option value="all">Todas</option>
+            <option value="residencial">Residencial</option>
+            <option value="comercial">Comercial</option>
+            <option value="mixto">Mixto</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-6 properties-grid">
+        <!-- property card template repeated -->
+        <article class="neo glass p-4 prop-card" data-type="residencial" tabindex="0" aria-label="Inmueble A">
+          <div class="property-image property-1">
+            <div class="property-image-content">
+              <div class="text-sm text-white font-medium">Paseo Central</div>
+              <div class="text-xl font-bold text-white">$ 3.2M</div>
+            </div>
+          </div>
+          <div class="property-details">
+            <h4 class="font-semibold">Residencia Prime — Paseo Central</h4>
+            <p class="text-sm text-slate-500">3 recámaras · 2 baños · 260 m²</p>
+          </div>
+          <div class="property-actions">
+            <button class="btn-primary text-sm" onclick="openProperty(1)">Más</button>
+            <div class="text-sm text-slate-600">ROI estimado: <span class="font-semibold text-accent">7.3%</span></div>
+          </div>
+        </article>
+
+        <article class="neo glass p-4 prop-card" data-type="comercial" tabindex="0" aria-label="Inmueble B">
+          <div class="property-image property-2">
+            <div class="property-image-content">
+              <div class="text-sm text-white font-medium">Distrito Financiero</div>
+              <div class="text-xl font-bold text-white">$ 5.8M</div>
+            </div>
+          </div>
+          <div class="property-details">
+            <h4 class="font-semibold">Oficina Prime — Distrito Financiero</h4>
+            <p class="text-sm text-slate-500">Formato flexible · 1,200 m²</p>
+          </div>
+          <div class="property-actions">
+            <button class="btn-primary text-sm" onclick="openProperty(2)">Más</button>
+            <div class="text-sm text-slate-600">ROI estimado: <span class="font-semibold text-accent">8.9%</span></div>
+          </div>
+        </article>
+
+        <article class="neo glass p-4 prop-card" data-type="mixto" tabindex="0" aria-label="Inmueble C">
+          <div class="property-image property-3">
+            <div class="property-image-content">
+              <div class="text-sm text-white font-medium">Malecón Nuevo</div>
+              <div class="text-xl font-bold text-white">$ 2.4M</div>
+            </div>
+          </div>
+          <div class="property-details">
+            <h4 class="font-semibold">Proyecto Mixto — Malecón</h4>
+            <p class="text-sm text-slate-500">Locales + 24 departamentos</p>
+          </div>
+          <div class="property-actions">
+            <button class="btn-primary text-sm" onclick="openProperty(3)">Más</button>
+            <div class="text-sm text-slate-600">ROI estimado: <span class="font-semibold text-accent">10.1%</span></div>
+          </div>
+        </article>
+
+        <article class="neo glass p-4 prop-card" data-type="residencial" tabindex="0" aria-label="Inmueble D">
+          <div class="property-image property-4">
+            <div class="property-image-content">
+              <div class="text-sm text-white font-medium">Colinas del Sol</div>
+              <div class="text-xl font-bold text-white">$ 1.9M</div>
+            </div>
+          </div>
+          <div class="property-details">
+            <h4 class="font-semibold">Villa de Lujo — Colinas</h4>
+            <p class="text-sm text-slate-500">4 recámaras · 4 baños · 480 m²</p>
+          </div>
+          <div class="property-actions">
+            <button class="btn-primary text-sm" onclick="openProperty(4)">Más</button>
+            <div class="text-sm text-slate-600">ROI estimado: <span class="font-semibold text-accent">6.8%</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- TEAM & TESTIMONIOS -->
+    <section id="equipo" class="section-spacing glass neo p-8 fade-in">
+      <div class="team-grid">
+        <div>
+          <h3 class="text-xl font-bold">Nuestro equipo</h3>
+          <p class="text-slate-600 mt-2">Profesionales con experiencia en inversión, finanzas y desarrollo.</p>
+
+          <ul class="mt-4 space-y-4">
+            <li class="flex items-start gap-4">
+              <div class="team-member-img team-member-1"></div>
+              <div>
+                <div class="font-semibold">Ana Montenegro</div>
+                <div class="text-sm text-slate-500">Directora de inversiones</div>
+                <p class="text-sm text-slate-600 mt-1">15+ años en gestión de activos inmobiliarios</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-4">
+              <div class="team-member-img team-member-2"></div>
+              <div>
+                <div class="font-semibold">Javier Ruiz</div>
+                <div class="text-sm text-slate-500">Asset Management</div>
+                <p class="text-sm text-slate-600 mt-1">Especialista en optimización de carteras</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-semibold">Testimonios</h4>
+          <div class="mt-4 space-y-4">
+            <blockquote class="p-4 glass neo rounded-lg italic text-slate-700">
+              "Altus transformó nuestra cartera. Profesionalismo, visión y resultados." 
+              <footer class="mt-2 text-sm font-semibold text-slate-600">— Familia G.</footer>
+            </blockquote>
+            <blockquote class="p-4 glass neo rounded-lg italic text-slate-700">
+              "La diligencia fue impecable. Recomendados."
+              <footer class="mt-2 text-sm font-semibold text-slate-600">— Fondo XY.</footer>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section-spacing p-8 neo glass fade-in">
+      <h3 class="text-xl font-bold">Preguntas frecuentes</h3>
+      <div class="mt-4 space-y-3">
+        <details class="p-3 glass neo rounded-md">
+          <summary class="font-semibold cursor-pointer">¿Cuál es el ticket mínimo?</summary>
+          <div class="mt-2 text-sm text-slate-600">Depende de la estrategia: typical mente $250k - $1M para proyectos prime.</div>
+        </details>
+        <details class="p-3 glass neo rounded-md">
+          <summary class="font-semibold cursor-pointer">¿Ofrecen reporting periódicos?</summary>
+          <div class="mt-2 text-sm text-slate-600">Sí, reportes trimestrales y seguimiento mensual según acuerdo.</div>
+        </details>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contacto" class="section-spacing glass neo p-8 fade-in">
+      <div class="contact-grid">
+        <div>
+          <h3 class="text-2xl font-bold">Contacto y asesoramiento</h3>
+          <p class="text-slate-600 mt-2">Agenda una llamada o escríbenos por WhatsApp para recibir asesoría personalizada.</p>
+
+          <div class="mt-6 flex items-center gap-4">
+            <a id="whatsapp-link" class="whatsapp-badge" href="https://wa.me/5215512345678?text=Hola%20Altus%20Capital%2C%20quiero%20informaci%C3%B3n%20sobre%20inversiones" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M17.6 14.2..." fill="white"/></svg>
+              Contactar por WhatsApp
+            </a>
+
+            <a class="text-sm text-slate-700 hover:text-accent hover:underline transition-colors" href="mailto:contacto@altuscapital.example">contacto@altuscapital.example</a>
+          </div>
+
+          <div class="mt-6 text-sm text-slate-600">
+            Tel: +52 1 55 1234 5678<br>
+            Oficina: Paseo Central 123, Ciudad
+          </div>
+        </div>
+
+        <form id="contact-form" class="space-y-3 p-4 glass neo" onsubmit="submitContact(event)" aria-label="Formulario de contacto">
+          <label class="block">
+            <span class="text-sm text-slate-600">Nombre</span>
+            <input required name="name" class="mt-1 w-full rounded-md p-3 border border-transparent focus:border-transparent focus:ring-0" placeholder="Tu nombre"/>
+          </label>
+
+          <label class="block">
+            <span class="text-sm text-slate-600">Email</span>
+            <input required type="email" name="email" class="mt-1 w-full rounded-md p-3 border border-transparent" placeholder="ejemplo@correo.com"/>
+          </label>
+
+          <label class="block">
+            <span class="text-sm text-slate-600">Mensaje</span>
+            <textarea required name="message" rows="4" class="mt-1 w-full rounded-md p-3 border border-transparent" placeholder="Cuéntanos sobre tu interés de inversión"></textarea>
+          </label>
+
+          <div class="flex items-center justify-between">
+            <button type="submit" class="btn-primary">Enviar consulta</button>
+            <div id="contact-status" class="text-sm text-slate-600"></div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mt-12 py-6 text-sm text-slate-600">
+      <div class="flex items-center justify-between">
+        <div>© <span id="year">2024</span> Altus Capital. Todos los derechos reservados.</div>
+        <div class="flex items-center gap-4">
+          <a href="#" class="hover:underline hover:text-accent transition-colors">Aviso de privacidad</a>
+          <a href="#" class="hover:underline hover:text-accent transition-colors">Términos</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JS -->
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 3D card interaction
+    const card = document.getElementById('card');
+    if (card) {
+      card.addEventListener('mousemove', (e) => {
+        const { left, top, width, height } = card.getBoundingClientRect();
+        const x = (e.clientX - left) / width - 0.5;
+        const y = (e.clientY - top) / height - 0.5;
+        card.style.transform = `rotateX(${-y * 12}deg) rotateY(${x * 12}deg) translateZ(10px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    }
+
+    // Property filter
+    const filter = document.getElementById('filter');
+    if (filter) {
+      filter.addEventListener('change', (e) => {
+        const type = e.target.value;
+        document.querySelectorAll('.prop-card').forEach(card => {
+          if (type === 'all' || card.dataset.type === type) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // Form submission
+    function submitContact(e) {
+      e.preventDefault();
+      const status = document.getElementById('contact-status');
+      status.textContent = 'Enviando...';
+      setTimeout(() => {
+        status.textContent = 'Mensaje enviado. Te contactaremos pronto.';
+        e.target.reset();
+      }, 1000);
+    }
+
+    // Property modal (simplified)
+    function openProperty(id) {
+      alert('Propiedad ' + id + ' - Más información disponible próximamente.');
+    }
+
+    // Añadir animaciones de entrada
+    document.addEventListener('DOMContentLoaded', function() {
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+
+      // Observar elementos con clase fade-in
+      document.querySelectorAll('.fade-in').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+      });
+    });
+  </script>
+</body>
+</html>
